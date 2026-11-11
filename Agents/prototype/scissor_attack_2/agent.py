@@ -49,12 +49,12 @@ class SimpleAgent(SingleAssetAgent):
             return None
 
         fighter_positions.sort(key=lambda x: x[1], reverse=True)
+        self.role_id_by_name = {
+            name: rank for rank, (name, _) in enumerate(fighter_positions, start=1)
+        }
 
         my_name = parent.getFullName()
-        for rank, (name, _) in enumerate(fighter_positions, start=1):
-            if name == my_name:
-                self.my_role_id = rank
-                break
+        self.my_role_id = self.role_id_by_name.get(my_name)
 
         return self.my_role_id
 
@@ -62,6 +62,7 @@ class SimpleAgent(SingleAssetAgent):
         super().initialize()
         self.own = self.getTeam()
         self.my_role_id = None
+        self.role_id_by_name = {}
         mc = self.modelConfig
 
         self.turnTable = np.array(
@@ -98,9 +99,9 @@ class SimpleAgent(SingleAssetAgent):
         parent = self.parent
 
         own = np.zeros([15], dtype=np.float32)   # 15次元 [0~7:運動/余白, 8:発射, 9:Role, 10:残弾, 11:時間, 12:自機数, 13:敵機数, 14:迂回部隊平均X]
-        enemy = np.zeros([7], dtype=np.float32) # 7次元 [0:探知, 1:方位, 2:距離, 3:高度, 4:探知数, 5:Vc, 6:敵進行角自機指向フラグ]
+        enemy = np.zeros([8], dtype=np.float32) # [0~6:最寄り敵情報, 7:VIP以外の敵が正面±20°に存在]
         threat = np.zeros([2], dtype=np.float32)
-        vip = np.zeros([6], dtype=np.float32)
+        vip = np.zeros([7], dtype=np.float32)  # [0~5:VIP情報, 6:航跡リスト上の射撃対象番号(1始まり)]
         self.lastTrackInfo = []
 
         if not parent.isAlive():
@@ -132,7 +133,7 @@ class SimpleAgent(SingleAssetAgent):
         own[11] = float(self.manager.getElapsedTime())
 
         num_alive_allies = 0
-        flank_x_list = []
+        ally_positions = [(parent.getFullName(), pos[0] / 1000.0, pos[1] / 1000.0)]
         if parent.observables.contains_p("/shared/fighter"):
             shared_fighters = parent.observables.at_p("/shared/fighter")
             for fullName, fObs in shared_fighters.items():
@@ -143,18 +144,22 @@ class SimpleAgent(SingleAssetAgent):
                     is_alive = bool(fObs.get("isAlive", False))
                 if is_alive:
                     num_alive_allies += 1
-                    # 味方のX座標取得
+                    # Role ID算出用に味方位置を収集する。
                     if hasattr(fObs, "contains_p") and fObs.contains_p("motion"):
                         m = MotionState(fObs["motion"]).transformTo(self.getLocalCRS())
                         p = self.teamOrigin.relPtoB(m.pos())
-                        # Y座標の絶対値が大きい外側2機を迂回部隊と判定
-                        if abs(p[1]) > 10000.0:  # 横方向に10km以上離れている外側機
-                            flank_x_list.append(p[0] / 1000.0)
+                        ally_positions.append((fullName, p[0] / 1000.0, p[1] / 1000.0))
 
         if num_alive_allies == 0 and parent.isAlive():
             num_alive_allies = 1
         own[12] = float(num_alive_allies)
-        own[14] = float(np.mean(flank_x_list)) if len(flank_x_list) > 0 else own[0]
+        # 開始時に確定したRole IDでRole 1・4だけを同期対象にする。
+        unique_positions = {name: (x, y) for name, x, y in ally_positions}
+        flank_x_list = [
+            x for name, (x, _) in unique_positions.items()
+            if self.role_id_by_name.get(name) in (1, 4)
+        ]
+        own[14] = float(np.mean(flank_x_list)) if flank_x_list else own[0]
 
         # 彼機航跡
         self.lastTrackInfo = [
@@ -200,12 +205,25 @@ class SimpleAgent(SingleAssetAgent):
             enemy[5] = Vc
             enemy[6] = is_enemy_heading_to_me  # 敵進行角30°以内自機指向フラグ
 
+        # VIP自身を除く全航跡を確認し、正面±20°の通常敵を検出する。
+        for track in self.lastTrackInfo:
+            if track.to_json().get("label", 0) == 1:
+                continue
+            t_pos = self.teamOrigin.relPtoB(track.pos())
+            rel = t_pos - pos
+            bearing = degrees(atan2(rel[1], rel[0]))
+            if abs(bearing) <= 20.0:
+                enemy[7] = 1.0
+                break
+
         # VIP抽出
         vip_track = None
-        for track in self.lastTrackInfo:
+        vip_track_index = 0
+        for track_index, track in enumerate(self.lastTrackInfo, start=1):
             t_json = track.to_json()
             if t_json.get("label", 0) == 1:
                 vip_track = track
+                vip_track_index = track_index
                 break
 
         if vip_track is not None:
@@ -217,6 +235,7 @@ class SimpleAgent(SingleAssetAgent):
             vip[3] = -vPos[2] / 1000.0
             vip[4] = vPos[1] / 1000.0
             vip[5] = 1.0
+            vip[6] = float(vip_track_index)
 
         # 被弾警報 (MWS)
         if parent.observables.contains_p("/sensor/mws/track"):
@@ -234,9 +253,9 @@ class SimpleAgent(SingleAssetAgent):
         high = np.finfo(np.float32).max
         return spaces.Dict({  # type: ignore
             "own": spaces.Box(low, high, shape=[15], dtype=np.float32),
-            "enemy": spaces.Box(low, high, shape=[7], dtype=np.float32),
+            "enemy": spaces.Box(low, high, shape=[8], dtype=np.float32),
             "threat": spaces.Box(low, high, shape=[2], dtype=np.float32),
-            "vip": spaces.Box(low, high, shape=[6], dtype=np.float32),
+            "vip": spaces.Box(low, high, shape=[7], dtype=np.float32),
         })
 
     def action_space(self):

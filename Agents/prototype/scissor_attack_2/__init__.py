@@ -51,7 +51,7 @@ class PincerMovementPolicy(StandalonePolicy):
         own = np.asarray(observation["own"], dtype=np.float64)
         enemy = np.asarray(observation["enemy"], dtype=np.float64)
         threat = np.asarray(observation["threat"], dtype=np.float64)
-        vip = np.asarray(observation.get("vip", np.zeros(6)), dtype=np.float64)
+        vip = np.asarray(observation.get("vip", np.zeros(7)), dtype=np.float64)
 
         numTurn = int(action_space["turn"].n)
         numSpeed = int(action_space["speed"].n)
@@ -120,7 +120,7 @@ class PincerMovementPolicy(StandalonePolicy):
 
         # --- [両翼部隊: VIP_RUSH 判定] ---
         if role_id in [1, 4] and phase in ["FLANK", "PINCER"]:
-            no_enemy_in_front_40deg = (enemy[0] < 0.5) or (abs(enemy[1]) > 40.0)
+            no_regular_enemy_in_front_20deg = enemy[7] < 0.5
             vip_detected = (vip[0] > 0.5) and (int(vip[5]) == 1)
             same_quadrant = (own[1] * vip[4] > 0) if vip_detected else False
 
@@ -132,7 +132,7 @@ class PincerMovementPolicy(StandalonePolicy):
                         y_diff_decreasing = True
                 state["prev_vip_y_diff"] = curr_y_diff
 
-            if no_enemy_in_front_40deg and vip_detected and same_quadrant and y_diff_decreasing:
+            if no_regular_enemy_in_front_20deg and vip_detected and same_quadrant and y_diff_decreasing:
                 phase = "VIP_RUSH"
                 state["phase"] = phase
                 state["count"] = 0
@@ -209,7 +209,7 @@ class PincerMovementPolicy(StandalonePolicy):
             if vip[0] > 0.5:
                 desiredAz = vip[1]
                 if vip[2] <= vip_r:
-                    targetIndex = 1
+                    targetIndex = int(vip[6])
             else:
                 desiredAz = 0.0
 

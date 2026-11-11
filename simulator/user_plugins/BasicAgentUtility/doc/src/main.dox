@@ -1,0 +1,12 @@
+/**
+
+\mainpage \self_name
+\anchor \mainpage_self
+
+空対空戦闘のAgentクラスを実装するためのユーティリティ機能を追加するプラグイン
+
+
+
+[ドキュメントのトップに戻る(\root_name)](\ref \mainpage_root)
+
+*/

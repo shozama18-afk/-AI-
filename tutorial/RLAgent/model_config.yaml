@@ -1,0 +1,251 @@
+# 学習済みモデルを読み込んで推論するときのネットワーク構成。
+#
+# 【重要】この内容は学習時の設定、すなわち
+#   seminar_config.yaml の policy_config -> Learner -> model_config
+# と完全に一致していなければならない。食い違うと構築されるネットワークの形が変わり、
+# 学習済み重み(.pth)の読み込みに失敗する。
+#
+# そのため、このファイルは seminar_config.yaml から機械的に生成している。
+# 学習設定の model_config を変更したら、このファイルも作り直すこと。
+# (tutorial/setup_workspace.py が両者の一致を検査して警告する)
+actionDistributionClassGetter: actionDistributionClassGetter
+actor:
+    accel:
+        apply_mask: true
+        layers:
+        -   - Linear
+            -   out_features: 32
+        -   - ReLU
+            - {}
+        -   - Linear
+            -   out_features: 32
+        -   - ReLU
+            - {}
+    target:
+        apply_mask: true
+        layers:
+        -   - TransformerDecoderLayer
+            -   batch_first: true
+                dim_feedforward: 16
+                dropout: 0.1
+                nhead: 4
+        -   - TransformerDecoderLayer
+            -   batch_first: true
+                dim_feedforward: 16
+                dropout: 0.1
+                nhead: 4
+        type: TransformerDecoder
+    turn:
+        apply_mask: true
+        layers:
+        -   - Linear
+            -   out_features: 32
+        -   - ReLU
+            - {}
+        -   - Linear
+            -   out_features: 32
+        -   - ReLU
+            - {}
+common:
+    layers:
+    -   - Linear
+        -   out_features: 16
+    -   - ReLU
+        - {}
+    -   - ResidualBlock
+        -   layers:
+            -   - Linear
+                -   out_features: 16
+            -   - BatchNorm1d
+                - {}
+    -   - ReLU
+        - {}
+    -   - ResidualBlock
+        -   layers:
+            -   - Linear
+                -   out_features: 16
+            -   - BatchNorm1d
+                - {}
+critic:
+    return:
+        layers:
+        -   - Linear
+            -   out_features: 32
+        -   - ReLU
+            - {}
+        -   - Linear
+            -   out_features: 32
+        -   - ReLU
+            - {}
+    value:
+        layers:
+        -   - Linear
+            -   out_features: 32
+        -   - ReLU
+            - {}
+        -   - Linear
+            -   out_features: 32
+        -   - ReLU
+            - {}
+enemy:
+    layers:
+    -   - Linear
+        -   out_features: 32
+    -   - ReLU
+        - {}
+    -   - ResidualBlock
+        -   layers:
+            -   - Linear
+                -   out_features: 32
+            -   - BatchNorm1d
+                - {}
+    -   - ReLU
+        - {}
+    -   - ResidualBlock
+        -   layers:
+            -   - Linear
+                -   out_features: 32
+            -   - BatchNorm1d
+                - {}
+enemy_2d:
+    layers:
+    -   - Linear
+        -   out_features: 32
+    -   - ReLU
+        - {}
+    -   - ResidualBlock
+        -   layers:
+            -   - Linear
+                -   out_features: 32
+            -   - BatchNorm1d
+                - {}
+    -   - ReLU
+        - {}
+    -   - ResidualBlock
+        -   layers:
+            -   - Linear
+                -   out_features: 32
+            -   - BatchNorm1d
+                - {}
+enemy_missile:
+    layers:
+    -   - Linear
+        -   out_features: 32
+    -   - ReLU
+        - {}
+    -   - ResidualBlock
+        -   layers:
+            -   - Linear
+                -   out_features: 32
+            -   - BatchNorm1d
+                - {}
+    -   - ReLU
+        - {}
+    -   - ResidualBlock
+        -   layers:
+            -   - Linear
+                -   out_features: 32
+            -   - BatchNorm1d
+                - {}
+entity_equivariant:
+    layers:
+    -   - ISAB
+        -   ln: true
+            num_heads: 4
+            num_inds: 16
+            skip_rff: false
+    -   - ISAB
+        -   ln: true
+            num_heads: 4
+            num_inds: 16
+            skip_rff: false
+    type: SetTransformer
+entity_invariant:
+    layers:
+    -   - ISAB
+        -   ln: true
+            num_heads: 4
+            num_inds: 16
+            skip_rff: false
+    -   - PMA
+        -   ln: true
+            num_heads: 4
+            num_seeds: 1
+            skip_rff: false
+    type: SetTransformer
+friend:
+    layers:
+    -   - Linear
+        -   out_features: 32
+    -   - ReLU
+        - {}
+    -   - ResidualBlock
+        -   layers:
+            -   - Linear
+                -   out_features: 32
+            -   - BatchNorm1d
+                - {}
+    -   - ReLU
+        - {}
+    -   - ResidualBlock
+        -   layers:
+            -   - Linear
+                -   out_features: 32
+            -   - BatchNorm1d
+                - {}
+friend_missile:
+    layers:
+    -   - Linear
+        -   out_features: 32
+    -   - ReLU
+        - {}
+    -   - ResidualBlock
+        -   layers:
+            -   - Linear
+                -   out_features: 32
+            -   - BatchNorm1d
+                - {}
+    -   - ReLU
+        - {}
+    -   - ResidualBlock
+        -   layers:
+            -   - Linear
+                -   out_features: 32
+            -   - BatchNorm1d
+                - {}
+lstm_cell_size: 256
+lstm_dropout: 0.2
+lstm_num_layers: 1
+merge:
+    layers:
+    -   - ReLU
+        - {}
+    -   - Linear
+        -   out_features: 256
+    -   - ReLU
+        - {}
+    -   - Linear
+        -   out_features: 256
+    -   - ReLU
+        - {}
+parent:
+    layers:
+    -   - Linear
+        -   out_features: 32
+    -   - ReLU
+        - {}
+    -   - ResidualBlock
+        -   layers:
+            -   - Linear
+                -   out_features: 32
+            -   - BatchNorm1d
+                - {}
+    -   - ReLU
+        - {}
+    -   - ResidualBlock
+        -   layers:
+            -   - Linear
+                -   out_features: 32
+            -   - BatchNorm1d
+                - {}
+use_lstm: false

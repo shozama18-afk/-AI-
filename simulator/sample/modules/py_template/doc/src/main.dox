@@ -1,0 +1,12 @@
+/**
+
+\mainpage \self_name
+\anchor \mainpage_self
+
+Pythonのみを用いて独自プラグインを作成するためのひな形
+
+
+
+[ドキュメントのトップに戻る(\root_name)](\ref \mainpage_root)
+
+*/

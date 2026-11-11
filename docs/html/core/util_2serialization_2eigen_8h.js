@@ -1,0 +1,38 @@
+var util_2serialization_2eigen_8h =
+[
+    [ "asrc::core::util::inner_eigen_type_wrapper< class EigenType >", "../core/structasrc_1_1core_1_1util_1_1inner__eigen__type__wrapper.html", "structasrc_1_1core_1_1util_1_1inner__eigen__type__wrapper" ],
+    [ "ASRC_SERIALIZE_EIGEN_AS_TEXT_ALWAYS_ROWMAJOR", "util_2serialization_2eigen_8h.html#a0382fe15bed6cb03a3c8b12e5b8cb2c4", null ],
+    [ "asrc::core::util::DTypes", "../core/namespaceasrc_1_1core_1_1util.html#ae1c60a779eab3cf23b6b021593d508be", [
+      [ "asrc::core::util::DTypes::INVALID_", "../core/namespaceasrc_1_1core_1_1util.html#ae1c60a779eab3cf23b6b021593d508beaa50e292b1c3d63ce7002b3dfcbc066fd", null ],
+      [ "asrc::core::util::DTypes::DOUBLE_", "../core/namespaceasrc_1_1core_1_1util.html#ae1c60a779eab3cf23b6b021593d508bea73e7bfe180db2388f314d43ef0b3556a", null ],
+      [ "asrc::core::util::DTypes::FLOAT_", "../core/namespaceasrc_1_1core_1_1util.html#ae1c60a779eab3cf23b6b021593d508bea4dbb3ceda63d550a39719600264c2214", null ],
+      [ "asrc::core::util::DTypes::UINT64_", "../core/namespaceasrc_1_1core_1_1util.html#ae1c60a779eab3cf23b6b021593d508bea8ecb6139dc840bb5c01be24881857e5f", null ],
+      [ "asrc::core::util::DTypes::INT64_", "../core/namespaceasrc_1_1core_1_1util.html#ae1c60a779eab3cf23b6b021593d508bea332eab228440591614bd2440ab15b1f4", null ],
+      [ "asrc::core::util::DTypes::UINT32_", "../core/namespaceasrc_1_1core_1_1util.html#ae1c60a779eab3cf23b6b021593d508bea914441e2b1d7910896dc8c94a6ab2e3c", null ],
+      [ "asrc::core::util::DTypes::INT32_", "../core/namespaceasrc_1_1core_1_1util.html#ae1c60a779eab3cf23b6b021593d508bea93f589525b64bc1d26d919420bba958e", null ],
+      [ "asrc::core::util::DTypes::UINT16_", "../core/namespaceasrc_1_1core_1_1util.html#ae1c60a779eab3cf23b6b021593d508bea4998eb8a9f2c6948747d8e6a18a79227", null ],
+      [ "asrc::core::util::DTypes::INT16_", "../core/namespaceasrc_1_1core_1_1util.html#ae1c60a779eab3cf23b6b021593d508bea2ec1c7c4a007d30d7be2d4c37bcba8ee", null ],
+      [ "asrc::core::util::DTypes::UINT8_", "../core/namespaceasrc_1_1core_1_1util.html#ae1c60a779eab3cf23b6b021593d508bea14bfd1fecd0ac3257c5e7d3f7d60656d", null ],
+      [ "asrc::core::util::DTypes::INT8_", "../core/namespaceasrc_1_1core_1_1util.html#ae1c60a779eab3cf23b6b021593d508beaaabc2cd759580acd4dfc510dad05e99b", null ],
+      [ "asrc::core::util::DTypes::BOOL_", "../core/namespaceasrc_1_1core_1_1util.html#ae1c60a779eab3cf23b6b021593d508beab516daa58ebfeeef264fded0ad2d4f5f", null ]
+    ] ],
+    [ "asrc::core::util::save_dtype_helper", "../core/namespaceasrc_1_1core_1_1util.html#a748e6cb14ff804e606ade5d7ba9ca895", null ],
+    [ "asrc::core::util::extract_dtype_helper", "../core/namespaceasrc_1_1core_1_1util.html#a450ab235ed021b88273d0001d0a746c2", null ],
+    [ "asrc::core::util::load_dtype_helper", "../core/namespaceasrc_1_1core_1_1util.html#a127afdd40544bf9fbb312f43023fea61", null ],
+    [ "asrc::core::util::save_without_swap", "../core/namespaceasrc_1_1core_1_1util.html#a9818a2f6f2da6bd4fd1f39b1a9d356d2", null ],
+    [ "asrc::core::util::load_without_swap", "../core/namespaceasrc_1_1core_1_1util.html#a66fd53ce2e0dd1b49867a73ada70b36d", null ],
+    [ "asrc::core::util::save_without_swap", "../core/namespaceasrc_1_1core_1_1util.html#a81714bc1ce4c8b25022e813a0d115293", null ],
+    [ "asrc::core::util::load_without_swap", "../core/namespaceasrc_1_1core_1_1util.html#a78a701a0b3a5344141bf5937114f61fe", null ],
+    [ "asrc::core::util::save_without_swap", "../core/namespaceasrc_1_1core_1_1util.html#ae7862fbbc8290489ab4a219dc8e54bcb", null ],
+    [ "asrc::core::util::load_without_swap", "../core/namespaceasrc_1_1core_1_1util.html#a4c7cd01c9f0d5d8f93f137ec8cb9dd5d", null ],
+    [ "asrc::core::util::save_without_swap", "../core/namespaceasrc_1_1core_1_1util.html#a99afd496ad43648e9710211166fe29b8", null ],
+    [ "asrc::core::util::load_without_swap", "../core/namespaceasrc_1_1core_1_1util.html#a62b3a492490c64daa4ba629b8d3f1b6a", null ],
+    [ "asrc::core::util::save_without_swap", "../core/namespaceasrc_1_1core_1_1util.html#ae8f3513d405b7260f5a52bd44b1d87c4", null ],
+    [ "asrc::core::util::load_without_swap", "../core/namespaceasrc_1_1core_1_1util.html#a2bf0d9a1c1d72443f820b363f01c557b", null ],
+    [ "asrc::core::util::make_inner_eigen_type_wrapper", "../core/namespaceasrc_1_1core_1_1util.html#af887fe109128773ed1c7a122d6b34bd3", null ],
+    [ "cereal::CEREAL_SAVE_FUNCTION_NAME", "../core/namespacecereal.html#a9278587c587daf4d9f51d6f641ac57a9", null ],
+    [ "cereal::CEREAL_LOAD_FUNCTION_NAME", "../core/namespacecereal.html#aa0d944c3242315f8e9671ecea6046be2", null ],
+    [ "cereal::CEREAL_SAVE_FUNCTION_NAME", "../core/namespacecereal.html#a432609832fa382e8cb2787d3bbce6665", null ],
+    [ "cereal::CEREAL_LOAD_FUNCTION_NAME", "../core/namespacecereal.html#af1057bfc38a9455fc9dc3c00b1146d33", null ],
+    [ "asrc::core::util::serialize_eigen_as_text_always_rowmajor", "../core/namespaceasrc_1_1core_1_1util.html#a2b46d8ad32177c0fcb778fdb75af846a", null ]
+];

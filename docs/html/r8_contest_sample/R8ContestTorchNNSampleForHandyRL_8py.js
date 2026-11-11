@@ -1,0 +1,4 @@
+var R8ContestTorchNNSampleForHandyRL_8py =
+[
+    [ "r8_contest_sample.R8ContestTorchNNSampleForHandyRL::R8ContestTorchNNSampleForHandyRL", "../r8_contest_sample/classr8__contest__sample_1_1R8ContestTorchNNSampleForHandyRL_1_1R8ContestTorchNNSampleForHandyRL.html", "classr8__contest__sample_1_1R8ContestTorchNNSampleForHandyRL_1_1R8ContestTorchNNSampleForHandyRL" ]
+];

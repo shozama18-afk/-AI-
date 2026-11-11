@@ -1,0 +1,34 @@
+{"Factory":{
+    "Ruler":{
+		"EmptyRuler":{
+            "class":"Ruler",
+            "config":{
+                "maxTime":1200,
+                "independentPenalty": false
+			}
+		}
+    },
+    "Reward":{
+        "WinLoseReward":{
+            "class":"WinLoseReward",
+            "config":{
+                "interval":{
+                    "unit":"time",
+                    "value":0.1
+                },
+                "win":1.0,
+                "lose":-1.0,
+                "draw":0.0
+            }
+        },
+        "ScoreReward":{
+            "class":"ScoreReward",
+            "config":{
+                "interval":{
+                    "unit":"time",
+                    "value":0.1
+                }
+            }
+        }
+    }
+}}

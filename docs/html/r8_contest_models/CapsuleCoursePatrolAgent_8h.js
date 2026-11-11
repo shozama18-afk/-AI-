@@ -1,0 +1,25 @@
+var CapsuleCoursePatrolAgent_8h =
+[
+    [ "r8_contest_models::initialize", "../r8_contest_models/namespacer8__contest__models.html#a9c4e4641ccca1cc318fbe58b2decb6b5", null ],
+    [ "r8_contest_models::serializeInternalState", "../r8_contest_models/namespacer8__contest__models.html#a9ce2d117822fa3263d824265c74d6458", null ],
+    [ "r8_contest_models::validate", "../r8_contest_models/namespacer8__contest__models.html#ad3c9f7368064d693ca6d597a293e1d4f", null ],
+    [ "r8_contest_models::control", "../r8_contest_models/namespacer8__contest__models.html#a67d7cbd52ca1924b7bf555678a6e4252", null ],
+    [ "r8_contest_models::getCoursePoint", "../r8_contest_models/namespacer8__contest__models.html#a759a00b3d6a80021affdba1e6a8f1251", null ],
+    [ "r8_contest_models::getCoursePhase", "../r8_contest_models/namespacer8__contest__models.html#ad498c57a1e9ab8cde861bfafcbfc6cbd", null ],
+    [ "r8_contest_models::chkMWS", "../r8_contest_models/namespacer8__contest__models.html#adff6ca906d2719906ca7307524847045", null ],
+    [ "exportCapsuleCoursePatrolAgent", "CapsuleCoursePatrolAgent_8h.html#a10af797b26db3311bd4f904fa97e6d6d", null ],
+    [ "r8_contest_models::byTeamOrigin", "../r8_contest_models/namespacer8__contest__models.html#a0b9e2728ad6f2b3b54484383308e8407", null ],
+    [ "r8_contest_models::p1", "../r8_contest_models/namespacer8__contest__models.html#a54fd07111b2d099d95b66e9de66ef39b", null ],
+    [ "r8_contest_models::p2", "../r8_contest_models/namespacer8__contest__models.html#ad038342361574336ce267c2258a85362", null ],
+    [ "r8_contest_models::velocity", "../r8_contest_models/namespacer8__contest__models.html#a68b6f22938f44e8eb1ba248360662e92", null ],
+    [ "r8_contest_models::radius", "../r8_contest_models/namespacer8__contest__models.html#ac59b48f18c378831edd1dea6fbbf618f", null ],
+    [ "r8_contest_models::deltaAZLimit", "../r8_contest_models/namespacer8__contest__models.html#a2a783f12abb88cd4767f7912ea57921a", null ],
+    [ "r8_contest_models::minPitchForNormal", "../r8_contest_models/namespacer8__contest__models.html#a90711f8fc8597d4dcea0b66a893497be", null ],
+    [ "r8_contest_models::maxPitchForNormal", "../r8_contest_models/namespacer8__contest__models.html#aa832e04e4f1d3d9c3ed0ccb2f009f53d", null ],
+    [ "r8_contest_models::minPitchForEvasion", "../r8_contest_models/namespacer8__contest__models.html#a32f4d4894724745aa9cccff16f640858", null ],
+    [ "r8_contest_models::maxPitchForEvasion", "../r8_contest_models/namespacer8__contest__models.html#ab3368085509bb70d728698aba0e41ec0", null ],
+    [ "r8_contest_models::minAltForEvasion", "../r8_contest_models/namespacer8__contest__models.html#a2826b0a9891b84fb497e490ffa3f70bc", null ],
+    [ "r8_contest_models::isClockwise", "../r8_contest_models/namespacer8__contest__models.html#ac5c3a22163818bb283c42348933de423", null ],
+    [ "r8_contest_models::altitudeKeeper", "../r8_contest_models/namespacer8__contest__models.html#a8c61b2ef407d07779d9b8a15ed1bec58", null ],
+    [ "r8_contest_models::course_length", "../r8_contest_models/namespacer8__contest__models.html#a71aecd1710aa7df95cb797ad4c63aa70", null ]
+];

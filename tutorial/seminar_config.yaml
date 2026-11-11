@@ -1,0 +1,453 @@
+# =====================================================================
+# 初級セミナー用の学習設定 (オープン部門 / S方式: 1機に1エージェント)
+#
+# 使い方:
+#     python tutorial/setup_workspace.py     # 作業ディレクトリを組み立てる
+#     cd tutorial/workspace
+#     python main.py seminar_config.yaml --train
+#
+# まず触るとよいのは以下の4箇所。
+#   1. env_args.userModuleID       … 学習させるエージェントのディレクトリ
+#   2. train_args.Learner.num_gpus … GPU が無い環境 / macOS(MPS) では 0 にする
+#   3. train_args.Learner.epochs   … 学習の打ち切り。-1 は上限なし。試すときは 5 など
+#   4. policy_config.Learner.model_config.use_lstm … まずは false のままでよい
+#
+# 詳細はドキュメントの
+# 「HandyRLを用いた強化学習サンプル / yaml の記述方法」を参照。
+# =====================================================================
+
+save_dir: ./results/Open/Single
+
+ray_args:
+    namespace: ASRCAISim1
+    head_ip_address: auto
+    entrypoint_ip_address: 127.0.0.1 #ここを127.0.0.1として新規クラスタが生成された場合、別プロセスからのアクセスができなくなるらしい。
+                                     #アクセス可能なクラスタを事前に立ち上げておくか、127.0.0.1以外のIPアドレスで指定する必要がある。この例は前者の想定。
+
+env_args:
+    # userModelID は Factory に "Agent_{userModelID}" というクラス名で登録される。
+    # この名前と configs/seminar_learning_config_S.json の AgentConfigDispatcher の
+    # "Learner_e" -> "model" の値を一致させる必要がある(既定では Agent_Sample)。
+    userModelID: Sample
+    # 学習させるエージェントのディレクトリ(__init__.py があるところ)
+    userModuleID: RLAgent
+    # 報酬を実装した .py のモジュール名。クラス名は MyReward 固定。
+    userRewardModuleID: MyReward
+    modelargs: args.json
+    rewardConfig: reward_config.json
+    # handyrl/environment.py の ENVS に無い名前はモジュールパスとして直接使われる。
+    # SampleEnv/sample.py は ASRC/ASRCAISim1.py に Agent と Reward の
+    # 動的登録処理を足したもので、setup_workspace.py が自動生成する。
+    env: handyrl.envs.SampleEnv.sample
+
+    env_config:
+        config:
+        - ./configs/R8_contest_open_mission_config.json
+        - ./configs/R8_contest_open_asset_placeholder.json
+        - ./configs/seminar_learning_config_S.json
+        - ./configs/R8_contest_agent_ruler_reward_models.json
+        # 公式サンプルの shaping 報酬(純Python版)の Factory 定義。
+        # C++ をビルドしなくても使えるようにするため、教材側で定義している。
+        - ./configs/seminar_reward_models.json
+        - Manager:
+            ViewerType: None
+            Callbacks: {}
+            Loggers: {}
+
+policy_config:
+    Learner:
+        # S方式(1機に1エージェント)なので false。M方式では true にする。
+        multi_port: false
+        active_limit: 50
+        is_internal: false
+        populate:
+            first_population: 1000
+            interval: 1000
+            on_start: false
+        rating_initial: 1500
+        rating_fixed: false
+        initial_weight: null # /designate/your/weight/path/hoge.pth
+        model_class: R8ContestTorchNNSampleForHandyRL
+        model_config:
+            actionDistributionClassGetter: actionDistributionClassGetter
+            use_lstm: false
+            lstm_cell_size: 256
+            lstm_num_layers: 1
+            lstm_dropout: 0.2
+            # image:
+            #     layers:
+            #         - ["Conv2d",{"kernel_size": 7,"out_channels": 32,"padding": 3,"stride": 2}]
+            #         - ["BatchNorm2d",{}]
+            #         - ["ReLU",{}]
+            #         - ["ResidualBlock",{
+            #             "layers":[
+            #                 ["Conv2d",{"kernel_size": 3,"out_channels": 32,"padding": 1}],
+            #                 ["BatchNorm2d",{}],
+            #                 ["ReLU",{}],
+            #                 ["Conv2d",{"kernel_size": 3,"out_channels": 32,"padding": 1}],
+            #                 ["BatchNorm2d",{}]
+            #             ]}]
+            #         - ["ReLU",{}]
+            #         - ["Conv2d",{"kernel_size": 4,"out_channels": 64,"padding": 1,"stride": 2}]
+            #         - ["BatchNorm2d",{}]
+            #         - ["ReLU",{}]
+            #         - ["ResidualBlock",{
+            #             "layers":[
+            #                 ["Conv2d",{"kernel_size": 3,"out_channels": 64,"padding": 1}],
+            #                 ["BatchNorm2d",{}],
+            #                 ["ReLU",{}],
+            #                 ["Conv2d",{"kernel_size": 3,"out_channels": 64,"padding": 1}],
+            #                 ["BatchNorm2d",{}]
+            #             ]}]
+            #         - ["ReLU",{}]
+            #         - ["Conv2d",{"kernel_size": 4,"out_channels": 128,"padding": 1,"stride": 2}]
+            #         - ["BatchNorm2d",{}]
+            #         - ["ReLU",{}]
+            #         - ["ResidualBlock",{
+            #             "layers":[
+            #                 ["Conv2d",{"kernel_size": 3,"out_channels": 128,"padding": 1}],
+            #                 ["BatchNorm2d",{}],
+            #                 ["ReLU",{}],
+            #                 ["Conv2d",{"kernel_size": 3,"out_channels": 128,"padding": 1}],
+            #                 ["BatchNorm2d",{}]
+            #             ]}]
+            #         - ["ReLU",{}]
+            #         - ["AdaptiveAvgPool2d",{"output_size": 1}]
+            #         - ["Flatten",{}]
+            common:
+                layers:
+                    - ["Linear",{"out_features": 16}]
+                    - ["ReLU",{}]
+                    - ["ResidualBlock",{
+                        "layers":[
+                            ["Linear",{"out_features": 16}],
+                            ["BatchNorm1d",{}]
+                        ]}]
+                    - ["ReLU",{}]
+                    - ["ResidualBlock",{
+                        "layers":[
+                            ["Linear",{"out_features": 16}],
+                            ["BatchNorm1d",{}]
+                        ]}]
+            parent:
+                layers:
+                    - ["Linear",{"out_features": 32}]
+                    - ["ReLU",{}]
+                    - ["ResidualBlock",{
+                        "layers":[
+                            ["Linear",{"out_features": 32}],
+                            ["BatchNorm1d",{}]
+                        ]}]
+                    - ["ReLU",{}]
+                    - ["ResidualBlock",{
+                        "layers":[
+                            ["Linear",{"out_features": 32}],
+                            ["BatchNorm1d",{}]
+                        ]}]
+            friend:
+                layers:
+                    - ["Linear",{"out_features": 32}]
+                    - ["ReLU",{}]
+                    - ["ResidualBlock",{
+                        "layers":[
+                            ["Linear",{"out_features": 32}],
+                            ["BatchNorm1d",{}]
+                        ]}]
+                    - ["ReLU",{}]
+                    - ["ResidualBlock",{
+                        "layers":[
+                            ["Linear",{"out_features": 32}],
+                            ["BatchNorm1d",{}]
+                        ]}]
+            enemy:
+                layers:
+                    - ["Linear",{"out_features": 32}]
+                    - ["ReLU",{}]
+                    - ["ResidualBlock",{
+                        "layers":[
+                            ["Linear",{"out_features": 32}],
+                            ["BatchNorm1d",{}]
+                        ]}]
+                    - ["ReLU",{}]
+                    - ["ResidualBlock",{
+                        "layers":[
+                            ["Linear",{"out_features": 32}],
+                            ["BatchNorm1d",{}]
+                        ]}]
+            enemy_2d:
+                layers:
+                    - ["Linear",{"out_features": 32}]
+                    - ["ReLU",{}]
+                    - ["ResidualBlock",{
+                        "layers":[
+                            ["Linear",{"out_features": 32}],
+                            ["BatchNorm1d",{}]
+                        ]}]
+                    - ["ReLU",{}]
+                    - ["ResidualBlock",{
+                        "layers":[
+                            ["Linear",{"out_features": 32}],
+                            ["BatchNorm1d",{}]
+                        ]}]
+            friend_missile:
+                layers:
+                    - ["Linear",{"out_features": 32}]
+                    - ["ReLU",{}]
+                    - ["ResidualBlock",{
+                        "layers":[
+                            ["Linear",{"out_features": 32}],
+                            ["BatchNorm1d",{}]
+                        ]}]
+                    - ["ReLU",{}]
+                    - ["ResidualBlock",{
+                        "layers":[
+                            ["Linear",{"out_features": 32}],
+                            ["BatchNorm1d",{}]
+                        ]}]
+            enemy_missile:
+                layers:
+                    - ["Linear",{"out_features": 32}]
+                    - ["ReLU",{}]
+                    - ["ResidualBlock",{
+                        "layers":[
+                            ["Linear",{"out_features": 32}],
+                            ["BatchNorm1d",{}]
+                        ]}]
+                    - ["ReLU",{}]
+                    - ["ResidualBlock",{
+                        "layers":[
+                            ["Linear",{"out_features": 32}],
+                            ["BatchNorm1d",{}]
+                        ]}]
+            entity_equivariant:
+                type: SetTransformer
+                layers:
+                    - ["ISAB",{"num_heads": 4,"num_inds": 16,"ln":true,"skip_rff":false}]
+                    - ["ISAB",{"num_heads": 4,"num_inds": 16,"ln":true,"skip_rff":false}]
+                #type: TransformerEncoder
+                #layers:
+                #    - ["TransformerEncoderLayer",{"nhead": 4,"dim_feedforward": 16,"dropout": 0.1,"batch_first": true}]
+                #    - ["TransformerEncoderLayer",{"nhead": 4,"dim_feedforward": 16,"dropout": 0.1,"batch_first": true}]
+            entity_invariant:
+                type: SetTransformer
+                layers:
+                    - ["ISAB",{"num_heads": 4,"num_inds": 16,"ln":true,"skip_rff":false}]
+                    - ["PMA",{"num_heads": 4,"num_seeds": 1,"ln":true,"skip_rff":false}]
+                #type: TransformerDecoder
+                #layers:
+                #    - ["TransformerEncoderLayer",{"nhead": 4,"dim_feedforward": 16,"dropout": 0.1,"batch_first": true}]
+                #    - ["TransformerDecoderLayer",{"nhead": 4,"dim_feedforward": 16,"dropout": 0.1,"batch_first": true}]
+            merge:
+                layers:
+                    - ["ReLU",{}]
+                    - ["Linear",{"out_features": 256}]
+                    - ["ReLU",{}]
+                    - ["Linear",{"out_features": 256}]
+                    - ["ReLU",{}]
+            # apply_merged_to_entity:
+            #     #type: SetTransformerWithQuery
+            #     #layers:
+            #     #    - ["ISAB",{"num_heads": 4,"num_inds": 16,"ln":true,"skip_rff":false}]
+            #     #    - ["ISAB",{"num_heads": 4,"num_inds": 16,"ln":true,"skip_rff":false}]
+            #     #    - ["PMAWithQuery",{"num_heads": 4,"ln":true,"skip_rff":false}]
+            #     type: TransformerDecoder
+            #     layers:
+            #         - ["TransformerEncoderLayer",{"nhead": 4,"dim_feedforward": 16,"dropout": 0.1,"batch_first": true}]
+            #         - ["TransformerEncoderLayer",{"nhead": 4,"dim_feedforward": 16,"dropout": 0.1,"batch_first": true}]
+            #         - ["TransformerDecoderLayer",{"nhead": 4,"dim_feedforward": 16,"dropout": 0.1,"batch_first": true}]
+            #         - ["TransformerDecoderLayer",{"nhead": 4,"dim_feedforward": 16,"dropout": 0.1,"batch_first": true}]
+            critic:
+                value: # 終了時の勝敗(±1)を割引率1で用いる本家HandyRL固有のcriticブランチ(NNにブランチを作らなければ無視される)
+                    layers:
+                        - ["Linear",{"out_features": 32}]
+                        - ["ReLU",{}]
+                        - ["Linear",{"out_features": 32}]
+                        - ["ReLU",{}]
+                return: # 環境側の本来の即時報酬を、yamlで指定した割引率で用いる通常のcriticブランチ(NNにブランチを作らなければ無視される)
+                    layers:
+                        - ["Linear",{"out_features": 32}]
+                        - ["ReLU",{}]
+                        - ["Linear",{"out_features": 32}]
+                        - ["ReLU",{}]
+            actor:
+                turn:
+                    apply_mask: True
+                    layers:
+                        - ["Linear",{"out_features": 32}]
+                        - ["ReLU",{}]
+                        - ["Linear",{"out_features": 32}]
+                        - ["ReLU",{}]
+                accel:
+                    apply_mask: True
+                    layers:
+                        - ["Linear",{"out_features": 32}]
+                        - ["ReLU",{}]
+                        - ["Linear",{"out_features": 32}]
+                        - ["ReLU",{}]
+                target:
+                    apply_mask: True
+                    type: TransformerDecoder
+                    layers:
+                        #- ["TransformerEncoderLayer",{"nhead": 4,"dim_feedforward": 16,"dropout": 0.1,"batch_first": true}]
+                        - ["TransformerDecoderLayer",{"nhead": 4,"dim_feedforward": 16,"dropout": 0.1,"batch_first": true}]
+                        - ["TransformerDecoderLayer",{"nhead": 4,"dim_feedforward": 16,"dropout": 0.1,"batch_first": true}]
+    Initial:
+        multi_port: false
+        active_limit: null
+        is_internal: true
+        populate: null
+        rating_initial: 1500
+        rating_fixed: true
+        initial_weight: null
+        model_class: DummyInternalModel
+        model_config: {}
+# 模倣学習(Behavior cloning又はOffline RL)を実施する場合はコメントアウトを外す
+# configs/seminar_learning_config_S.jsonにおいて、所望のExpertWrapperのalias名と一致していることを確認すること
+#    Expert:
+#        multi_port: false # S方式なのでfalse。M方式ではtrueにする。
+#        active_limit: null
+#        is_internal: true
+#        populate: null
+#        rating_initial: 1500
+#        rating_fixed: false
+#        initial_weight: null
+#        model_class: DummyInternalModel
+#        model_config: {}
+
+train_args:
+    Learner:
+        node_designation: null #127.0.0.1を指定してはいけない。
+        num_gpus: 0 # セミナー用に0(CPUのみ)にしてある。CUDA対応GPUがあるなら1にするとよい。
+                    # MacOSの場合はrayがMPSをGPUとして認識しないので0にすること。
+                    # ここで0にしてもPyTorchはMPSを認識するのでt.to('mps')のように利用可能。
+        match_monitor_class: TwoTeamCombatMatchMonitor
+        turn_based_training: false
+        observation: false
+        auto_tune_lr: false #本家HandyRLでは学習率はハードコーディングでスケジューリングされている。その有効/無効を切り替えるフラグ
+        default_lr: 1.0e-4 #学習率の基準値。本家HandyRLのスケジューリングでは3e-8であり、これにバッチ中のデータ数を乗じて、更に重み更新回数に応じて減衰させている。
+                           #スケジューリングを無効化した場合は何も乗じずこの値(省略時1e-4)をそのまま用いる。
+        gamma: 0.997
+        forward_steps: 64
+        burn_in_steps: 16  # for RNNs
+        compress_steps: 16
+        entropy_regularization: 4.0e-3
+        entropy_regularization_decay: 0.1
+        separate_policy_gradients: false
+        exploration_config:
+            use_exploration: true
+            only_one_explorer_per_policy: false
+            eps_start: 0.4
+            eps_end: 0.4
+            eps_decay: -1
+            alpha: 7.0
+            cycle: 16
+        checkpoint_interval: 10
+        update_episodes: 10
+        batch_size: 128
+        minimum_episodes: 10
+        epochs: -1
+        num_batchers: 1
+        auto_adjust_eval_rate: false #本家HandyRLのeval_rate補正を有効にするかどうか。trueにするとeval_rate < update_episode^(-0.15)の場合に後者の値が使用される。省略時はfalseとなる。
+        eval_rate: 0.1 #auto_adjust_eval_rateをfalse(又は省略)として、実際のeval_rateを計算して直接指定することを推奨する。
+        worker:
+            num_parallel: 4
+        lambda: 0.7
+        policy_target: UPGO # 'UPGO' 'VTRACE' 'TD' 'MC'
+        value_target: TD # 'VTRACE' 'TD' 'MC'
+        seed: 0
+        policy_to_train: Learner
+        policy_to_imitate: [] # ["Expert"] #摸倣学習を実施する際は教師役のpolicy名を与える
+        imitation_beta: 0.6
+        imitation_kl_threshold: 1.0
+        imitation_loss_scale: 1.0
+        imitation_loss_threshold: 1.0
+        deterministic:
+            g: 0.1
+            e: 0.1
+        record_hidden_in: False # NNの内部状態をリプレイバッファに保存するか否か。メモリ消費量が激増するためFalseを推奨する。
+        prioritized_replay: True # 優先度付き経験再生を有効化するかどうか。Falseの場合は本家HandyRLと同等のリプレイバッファ(DefaultReplayBuffer)となる。
+        replay_buffer_config:
+            node_designation: null
+            independent_replay_for_each_player: True # 各player単位でリプレイバッファに記録するかどうか
+            discard_untrainable_players: True # 学習対象以外のpolicyの情報を捨てるかどうか
+            ignore_noaction_timesteps: True # 誰も行動していない時刻のデータを無視するかどうか(Falseの場合は空の時刻として残す)
+            # ↓本家のReplayBuffer(DefaultReplayBuffer)
+            maximum_episodes: 3000
+            # ↓PrioritizedReplayBuffer
+            calc_initial_priority: False
+            priority_target: 'SAME' # 'VTRACE' 'TD' 'MC' 'SAME'
+            capacity: 2000000
+            alpha: 0.6
+            beta: 0.4
+            beta_decay: 6000000
+            store_interval: 1
+            eta: 0.9
+            eps: 1.0e-8
+        worker_options:
+            num_cpus: 1.0
+
+
+match_maker_args:
+    match_maker_class: R8ContestTwoTeamCombatMatchMaker
+    node_designation: null #127.0.0.1を指定してはいけない。
+    seed: 12345
+    match_config:
+        #expert_ratio: 0.2 #模倣学習を行う際のみ指定する。
+        warm_up_episodes: 0
+        youth: false
+
+        asset_slots: ["Fighter1", "Fighter2", "Fighter3", "Fighter4", "Escorted1"]
+        initial_states:
+            - number: 4
+              type: normal
+              asset_slots: ["Fighter1", "Fighter2", "Fighter3", "Fighter4"]
+              symmetric: true
+              lower:
+                pos: [-20000.0,95000.0,-12000.]
+                vel: 260.0
+                heading: 225.0
+              upper:
+                pos: [20000.0,105000.0,-6000.0]
+                vel: 280.0
+                heading: 315.0
+            - number: 1
+              type: escorted
+              asset_slots: ["Escorted1"]
+              symmetric: false
+              p1: [100000.0,120000.0,-10000.0]
+              p2: [-100000.0,120000.0,-10000.0]
+              radius: 5000.0
+              vel: 250.0
+
+        asset_spec_randomization:
+            fighter:
+                number: 4
+                type: Fighter
+                asset_slots: ["Fighter1", "Fighter2", "Fighter3", "Fighter4"]
+                symmetric: true
+                heterogeneous: true
+                shuffle: true
+                randomized_asset_spec:
+                    # ランダムにしない値はコメントアウトすること。
+                    rcs_scale: [0.4,1.0] # 探知距離にして約0.8〜1.0倍
+                    radar_range: [0.8,1.2]
+                    radar_coverage: [60.0,120.0]
+                    ir_radiation_intensity_scale: [0.64,1.0] # 探知距離にして約0.8〜1.0倍
+                    irst_range: [0.8,1.2]
+                    irst_coverage: [60.0,120.0]
+                    maximum_speed: [0.8,1.2]
+                    num_missiles: [4,8]
+                    missile_thrust: [0.8,1.2]
+                    shot_approval_delay: [1,5]
+            escorted:
+                number: 1
+                type: Escorted
+                asset_slots: ["Escorted1"]
+                symmetric: true
+                heterogeneous: true
+                shuffle: true
+                randomized_asset_spec:
+                    rcs_scale: [6.4,16.0] # 探知距離にして約1.6〜2.0倍
+                    ir_radiation_intensity_scale: [2.56,4.0] # 探知距離にして約1.6〜2.0倍
+                    maximum_speed: [0.9,1.1] # 周回速度にして225〜275[m/s]
+                    velocity: 250.0

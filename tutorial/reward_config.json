@@ -1,0 +1,7 @@
+{
+    "interval": {
+        "unit": "time",
+        "value": 0.1
+    },
+    "aliveBonus": 0.1
+}

@@ -1,0 +1,12 @@
+/**
+
+\mainpage \self_name
+\anchor \mainpage_self
+
+PyTorchで切断ガウス分布を用いるためのプラグイン
+
+
+
+[ドキュメントのトップに戻る(\root_name)](\ref \mainpage_root)
+
+*/

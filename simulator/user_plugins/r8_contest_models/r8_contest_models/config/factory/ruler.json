@@ -1,0 +1,67 @@
+{"Factory":{
+    "Ruler":{
+        "R8ContestRuler":{
+            "class":"BasicAirToAirCombatModels01.BasicAACRuler01",
+            "config":{
+                "interval":{
+                    "unit":"time",
+                    "value":1.0
+                },
+                "maxTime":1800,
+                "minTime":100,
+                "dLine":150000,
+                "dOut":150000,
+                "hLim":20000,
+                "westSider":"Red",
+                "eastSider":"Blue",
+                "pDisq": -10.0,
+                "pBreak": 0.0,
+                "pHit": {
+                    "Default":0.0,
+                    ".*Escorted.*":1.0
+                },
+                "pCrash": {
+                    "Default":0.0,
+                    ".*Escorted.*":1.0
+                },
+                "pAlive": {
+                    "Default":0.0,
+                    ".*Escorted.*":0.0
+                },
+                "pAdv": 0.0,
+                "pOut": 0.01,
+                "regardDefenseLineAsPenaltyLine":true,
+                "pCrashAsPenalty":false,
+                "independentPenalty":true,
+                "pHitPerAircraft": true,
+                "pCrashPerAircraft": true,
+                "pAlivePerAircraft": true,
+                "enableAdditionalTime": false,
+                "terminalAtElimination": true,
+                "terminalAtBreak": false,
+                "considerFuelConsumption": false,
+                "fuelMargin": 0.0,
+                "distanceFromBase": {
+                    "Red":0.0,
+                    "Blue":0.0
+                },
+                "modelNamesToBeConsideredForBreak": {
+                    "Red":[],
+                    "Blue":[]
+                },
+                "modelNamesToBeExcludedForBreak": {
+                    "Red":[],
+                    "Blue":[]
+                },
+                "modelNamesToBeConsideredForElimination": {
+                    "Red":[".*Escorted.*"],
+                    "Blue":[".*Escorted.*"]
+                },
+                "modelNamesToBeExcludedForElimination": {
+                    "Red":[],
+                    "Blue":[]
+                }
+            }
+        }
+    }
+}}

@@ -1,0 +1,13 @@
+services:
+  dev1:
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfile.cpu
+    deploy:
+
+    container_name: atla5
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/workspace
+    tty: true

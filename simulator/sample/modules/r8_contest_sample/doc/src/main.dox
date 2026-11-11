@@ -1,0 +1,12 @@
+/**
+
+\mainpage \self_name
+\anchor \mainpage_self
+
+第5回空戦AIチャレンジの戦闘シナリオに合わせて基本的な強化学習を行うための行動判断モデルのサンプル
+
+
+
+[ドキュメントのトップに戻る(\root_name)](\ref \mainpage_root)
+
+*/

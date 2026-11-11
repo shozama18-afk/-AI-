@@ -1,0 +1,12 @@
+/**
+
+\mainpage \self_name
+\anchor \mainpage_self
+
+C++を用いて独自プラグインを作成するためのひな形。Pythonクラスも追加可能。
+
+
+
+[ドキュメントのトップに戻る(\root_name)](\ref \mainpage_root)
+
+*/

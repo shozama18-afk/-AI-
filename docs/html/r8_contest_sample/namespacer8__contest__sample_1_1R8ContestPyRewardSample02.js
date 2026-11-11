@@ -1,0 +1,4 @@
+var namespacer8__contest__sample_1_1R8ContestPyRewardSample02 =
+[
+    [ "R8ContestPyRewardSample02", "classr8__contest__sample_1_1R8ContestPyRewardSample02_1_1R8ContestPyRewardSample02.html", "classr8__contest__sample_1_1R8ContestPyRewardSample02_1_1R8ContestPyRewardSample02" ]
+];

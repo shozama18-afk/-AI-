@@ -1,0 +1,26 @@
+var classasrc_1_1core_1_1CoordinatedFlightController =
+[
+    [ "Type", "../core/classasrc_1_1core_1_1CoordinatedFlightController.html#aceba83174955777a1214802e0a526d5c", null ],
+    [ "BaseType", "../core/classasrc_1_1core_1_1CoordinatedFlightController.html#aceff43fc69ee0e78ae2d624b5d33f563", null ],
+    [ "TrampolineType", "../core/classasrc_1_1core_1_1CoordinatedFlightController.html#a1a0a2cdf2aad87f88383ae4c8068806e", null ],
+    [ "PyClassInfo", "../core/classasrc_1_1core_1_1CoordinatedFlightController.html#ac4fdbb9776fe8d69bb74aff3af4d0085", null ],
+    [ "initialize", "../core/classasrc_1_1core_1_1CoordinatedFlightController.html#af041a40dd98e6c9ea653ff179ab3040d", null ],
+    [ "serializeInternalState", "../core/classasrc_1_1core_1_1CoordinatedFlightController.html#a4b8d8413947200bddb7baac46bb6c5a9", null ],
+    [ "getDefaultCommand", "../core/classasrc_1_1core_1_1CoordinatedFlightController.html#a35431a026aa8d3ca3295cc27cc51ee36", null ],
+    [ "calc", "../core/classasrc_1_1core_1_1CoordinatedFlightController.html#a036a112f426b9765dc716fb43cc97469", null ],
+    [ "calcDirect", "../core/classasrc_1_1core_1_1CoordinatedFlightController.html#a6ecab206e41b6cf4a98042cf6ab656a8", null ],
+    [ "calcFromDirAndVel", "../core/classasrc_1_1core_1_1CoordinatedFlightController.html#a38464ca8ccc0172d1f151a04920af1be", null ],
+    [ "lambdaVel", "../core/classasrc_1_1core_1_1CoordinatedFlightController.html#a7dc8e319d505356ac6d48748ea2e08f6", null ],
+    [ "lambdaTheta", "../core/classasrc_1_1core_1_1CoordinatedFlightController.html#a18b375dc56b91f12280d9da0b30d0588", null ],
+    [ "clampTheta", "../core/classasrc_1_1core_1_1CoordinatedFlightController.html#aba1c3f517550b6de4911b9daea0b8de8", null ],
+    [ "kVel", "../core/classasrc_1_1core_1_1CoordinatedFlightController.html#ab17d3aa468ff8cc85a50d4c8a9d134c4", null ],
+    [ "kAccel", "../core/classasrc_1_1core_1_1CoordinatedFlightController.html#ae7338994cf9d2f69a8b4e1745a811267", null ],
+    [ "kPower", "../core/classasrc_1_1core_1_1CoordinatedFlightController.html#a3842e586964af12e76335d7a9338b961", null ],
+    [ "kTheta", "../core/classasrc_1_1core_1_1CoordinatedFlightController.html#aed15c9f84ef5e858556e9e6352729455", null ],
+    [ "kOmega", "../core/classasrc_1_1core_1_1CoordinatedFlightController.html#a4a07460cc13369f834a343e6caca4349", null ],
+    [ "kAoa", "../core/classasrc_1_1core_1_1CoordinatedFlightController.html#ab434406a1efe5f46aa055172a14cfee6", null ],
+    [ "kEps", "../core/classasrc_1_1core_1_1CoordinatedFlightController.html#aca3163da16b8d8073fe9d117bd4705cc", null ],
+    [ "pitchLimit", "../core/classasrc_1_1core_1_1CoordinatedFlightController.html#a90e6f2a76de990260c08ff7f21591aa0", null ],
+    [ "pitchLimitThreshold", "../core/classasrc_1_1core_1_1CoordinatedFlightController.html#a49e6b4724af4c1d27e4c5c423fb0dfdf", null ],
+    [ "altitudeKeeper", "../core/classasrc_1_1core_1_1CoordinatedFlightController.html#a7f2c0d1a874ca406f3fa1ef9d364ca15", null ]
+];

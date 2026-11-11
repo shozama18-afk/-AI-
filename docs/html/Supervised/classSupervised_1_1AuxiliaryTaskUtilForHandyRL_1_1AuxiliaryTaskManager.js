@@ -1,0 +1,26 @@
+var classSupervised_1_1AuxiliaryTaskUtilForHandyRL_1_1AuxiliaryTaskManager =
+[
+    [ "__init__", "../Supervised/classSupervised_1_1AuxiliaryTaskUtilForHandyRL_1_1AuxiliaryTaskManager.html#a27673a4fff542d421cee67f769197d29", null ],
+    [ "extract_data", "../Supervised/classSupervised_1_1AuxiliaryTaskUtilForHandyRL_1_1AuxiliaryTaskManager.html#a1deb9d315d2982bb12398a78f839950a", null ],
+    [ "add_episodes", "../Supervised/classSupervised_1_1AuxiliaryTaskUtilForHandyRL_1_1AuxiliaryTaskManager.html#a0a60f1cd30c17bb2be5ab3667051526f", null ],
+    [ "get_episode", "../Supervised/classSupervised_1_1AuxiliaryTaskUtilForHandyRL_1_1AuxiliaryTaskManager.html#a3821ebdc2c9dff3432c1929915effd29", null ],
+    [ "get_idx_candidates", "../Supervised/classSupervised_1_1AuxiliaryTaskUtilForHandyRL_1_1AuxiliaryTaskManager.html#a649525d8b466e5bae1c2e5d77355c0cb", null ],
+    [ "__getitem__", "../Supervised/classSupervised_1_1AuxiliaryTaskUtilForHandyRL_1_1AuxiliaryTaskManager.html#afd8f198150b750d7785ff27b20c930ce", null ],
+    [ "make_batch", "../Supervised/classSupervised_1_1AuxiliaryTaskUtilForHandyRL_1_1AuxiliaryTaskManager.html#a40650e44a8d452b40ae547149d7fa216", null ],
+    [ "forward", "../Supervised/classSupervised_1_1AuxiliaryTaskUtilForHandyRL_1_1AuxiliaryTaskManager.html#a6f308f993b6c14f39793528508a385f9", null ],
+    [ "train", "../Supervised/classSupervised_1_1AuxiliaryTaskUtilForHandyRL_1_1AuxiliaryTaskManager.html#a2c101d6d2941ab9bf2f5f5a4593197e3", null ],
+    [ "args", "../Supervised/classSupervised_1_1AuxiliaryTaskUtilForHandyRL_1_1AuxiliaryTaskManager.html#a59231da590ccbb649314e4a7bb35da12", null ],
+    [ "model", "../Supervised/classSupervised_1_1AuxiliaryTaskUtilForHandyRL_1_1AuxiliaryTaskManager.html#a55092b09b7f4711fd43833e9dbd8fcc0", null ],
+    [ "tasks", "../Supervised/classSupervised_1_1AuxiliaryTaskUtilForHandyRL_1_1AuxiliaryTaskManager.html#adf5db3bb5a72111421f305a8bce645e8", null ],
+    [ "policy_to_train", "../Supervised/classSupervised_1_1AuxiliaryTaskUtilForHandyRL_1_1AuxiliaryTaskManager.html#a3d67fe9f78b92dd308cd43f6b8588b2c", null ],
+    [ "episodes", "../Supervised/classSupervised_1_1AuxiliaryTaskUtilForHandyRL_1_1AuxiliaryTaskManager.html#a2af5a32a89659aa800f6570e5568488d", null ],
+    [ "capacity", "../Supervised/classSupervised_1_1AuxiliaryTaskUtilForHandyRL_1_1AuxiliaryTaskManager.html#a910e8a532380740b9062313fb70ba15c", null ],
+    [ "ep_indices", "../Supervised/classSupervised_1_1AuxiliaryTaskUtilForHandyRL_1_1AuxiliaryTaskManager.html#a158dfcb175ae120c96b8bbf54a8130cb", null ],
+    [ "flat_idx_from_ep", "../Supervised/classSupervised_1_1AuxiliaryTaskUtilForHandyRL_1_1AuxiliaryTaskManager.html#a6207eddde0abb9c65862e06c5c0f63c9", null ],
+    [ "inputs_zeros", "../Supervised/classSupervised_1_1AuxiliaryTaskUtilForHandyRL_1_1AuxiliaryTaskManager.html#a8300bfd589d70b9df2567e136366bb50", null ],
+    [ "truth_zeros", "../Supervised/classSupervised_1_1AuxiliaryTaskUtilForHandyRL_1_1AuxiliaryTaskManager.html#afb253b7a600a7a1771e96414e9814e04", null ],
+    [ "_ep_idx_ofs", "../Supervised/classSupervised_1_1AuxiliaryTaskUtilForHandyRL_1_1AuxiliaryTaskManager.html#aaa902cc6cff5982fd00c82282f50ad0f", null ],
+    [ "_next_idx", "../Supervised/classSupervised_1_1AuxiliaryTaskUtilForHandyRL_1_1AuxiliaryTaskManager.html#a9fb8a2c5549375ee361f13293aae5e29", null ],
+    [ "_data_count", "../Supervised/classSupervised_1_1AuxiliaryTaskUtilForHandyRL_1_1AuxiliaryTaskManager.html#aec1995d16f3c04e0c1a9e0316a3c100d", null ],
+    [ "_total_data_count", "../Supervised/classSupervised_1_1AuxiliaryTaskUtilForHandyRL_1_1AuxiliaryTaskManager.html#aac4ec8d53ada4ad43240eb8010e7e465", null ]
+];

@@ -1,0 +1,42 @@
+{
+    "Factory": {
+        "Reward": {
+            "SeminarShaping01": {
+                "class": "R8ContestPyRewardSample01",
+                "config": {
+                    "interval": {
+                        "unit": "time",
+                        "value": 0.1
+                    },
+                    "pBite": 0.05,
+                    "pMemT": 0.0,
+                    "pDetect": 0.002,
+                    "pVel": 0.0,
+                    "pOmega": 0.0,
+                    "pLine": 1e-05,
+                    "pEnergy": 0.0,
+                    "pLineAsPeak": true
+                }
+            },
+            "SeminarShaping02": {
+                "class": "R8ContestPyRewardSample02",
+                "config": {
+                    "interval": {
+                        "unit": "time",
+                        "value": 0.1
+                    },
+                    "pAvoid": 0.0,
+                    "pHitE_head": -0.0,
+                    "pHitE_tail": 0.0,
+                    "pCrash": -0.5,
+                    "pHit_head": 0.1,
+                    "pHit_tail": 0.1,
+                    "pOut": -0.01,
+                    "regardDefenseLineAsPenaltyLine": true,
+                    "pAlive": 0.2,
+                    "pFuelShortage": 0.0
+                }
+            }
+        }
+    }
+}

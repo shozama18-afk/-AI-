@@ -1,0 +1,53 @@
+services:
+  build:
+    container_name: build
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfile.cpu
+      target: build
+      network: host
+      args:
+        BASE_IMAGE: ubuntu
+        BASE_TAG: 22.04
+        # ASRC_BUILD_OPTIONSには改行区切りでinstall_all.pyに対するオプションを与える。
+        # 基本的には--clean -b -iを推奨
+        ASRC_BUILD_OPTIONS: |-
+          --clean
+          -b
+          -i
+    command: bash -c "mkdir -p /workspace/dist && cp /opt/data/dist/* /workspace/dist/"
+    volumes:
+      - .:/workspace
+    tty: true
+
+  work:
+    container_name: work
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfile.cpu
+      target: work
+      network: host
+      args:
+        BASE_IMAGE: nvidia/cuda
+        BASE_TAG: 12.5.1-cudnn-devel-ubuntu22.04
+        USER_ID: 1000
+        GROUP_ID: 1000
+        REMOTE_USER: developer
+        REMOTE_GROUP: developer
+    deploy:
+#      resources:
+#        reservations:
+#          devices:
+#            - driver: nvidia
+#              count: 1
+#              capabilities: [gpu]
+    command: bash
+    volumes:
+      - .:/workspace
+    # GUIを使いたい場合、例えば以下のコメントアウトを外せばよい。
+    # あるいはVNCやRDPのサーバをコンテナに追加してリモートデスクトップでアクセスすればよい。
+    #  - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    #environment:
+    #  - DISPLAY=:1
+    #  - XDG_RUNTIME_DIR=/run/user/1000/
+    tty: true

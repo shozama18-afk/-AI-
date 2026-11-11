@@ -1,0 +1,4 @@
+var namespacer8__contest__sample_1_1R8ContestTorchNNSampleForHandyRL =
+[
+    [ "R8ContestTorchNNSampleForHandyRL", "classr8__contest__sample_1_1R8ContestTorchNNSampleForHandyRL_1_1R8ContestTorchNNSampleForHandyRL.html", "classr8__contest__sample_1_1R8ContestTorchNNSampleForHandyRL_1_1R8ContestTorchNNSampleForHandyRL" ]
+];
